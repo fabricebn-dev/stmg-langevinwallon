@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STMG - Lycée Langevin Wallon</title>
+    <style>
+        :root {
+            --main-blue: #004b93;
+            --dark-blue: #003366;
+            --light-blue: #0066cc;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --text-dark: #333333;
+            --accent-red: #c1272d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text-dark);
+            background: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header avec animation */
+        header {
+            background: var(--main-blue);
+            color: white;
+            padding: 2.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-30px, -30px) rotate(10deg); }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.3px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.95;
+            letter-spacing: 0.3px;
+            animation: slideDown 0.8s ease-out 0.2s both;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--main-blue);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 0;
+        }
+
+        .nav-item {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 1.1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: var(--light-blue);
+            transition: height 0.3s ease;
+            opacity: 0.05;
+        }
+
+        .nav-item:hover::before {
+            height: 100%;
+        }
+
+        .nav-item.active {
+            background: var(--light-gray);
+            border-bottom-color: var(--main-blue);
+            color: var(--main-blue);
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Annonces importantes */
+        .announcement-banner {
+            background: var(--accent-red);
+            color: white;
+            padding: 1.5rem 2rem;
+            margin: -3rem -2rem 3rem;
+            box-shadow: 0 3px 10px rgba(193,39,45,0.2);
+            border-left: 5px solid var(--dark-blue);
+        }
+
+        .announcement-banner h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* Cartes de contenu */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 4px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--main-blue);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0,75,147,0.08) 0%, transparent 70%);
+            transform: translate(30%, -30%);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+
+        .card h3 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background: var(--main-blue);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Liste de chapitres */
+        .chapter-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .chapter-item {
+            background: var(--light-gray);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            border-left: 4px solid var(--main-blue);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .chapter-item:hover {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+
+        .chapter-title {
+            font-weight: 600;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-desc {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .download-links {
+            margin-top: 0.8rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--main-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .download-btn:hover {
+            background: var(--dark-blue);
+            transform: scale(1.05);
+        }
+
+        /* Section titre */
+        .section-title {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2.2rem;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--main-blue);
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background: var(--accent-red);
+        }
+
+        .section-intro {
+            font-size: 1.1rem;
+            color: #555;
+            margin: 1.5rem 0 2.5rem;
+            line-height: 1.8;
+        }
+
+        /* Accueil hero */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+
+        .hero-text h2 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.9rem;
+            color: var(--main-blue);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 4px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 3px solid var(--main-blue);
+        }
+
+        .stat-number {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2.5rem;
+            color: var(--main-blue);
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Actualités */
+        .news-item {
+            background: white;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            border-left: 5px solid var(--main-blue);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .news-date {
+            color: var(--accent-red);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.3rem;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* Tableau */
+        .info-table {
+            width: 100%;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+
+        .info-table th {
+            background: var(--main-blue);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .info-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-table tr:hover {
+            background: var(--light-gray);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-blue);
+            color: white;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1.1rem; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .nav-item { min-width: 100%; }
+            .section-title { font-size: 1.8rem; }
+        }
+
+        /* Animations de chargement */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Accordéon dépliable */
+        .collapsible-title {
+            cursor: pointer;
+            position: relative;
+            padding-right: 30px;
+            user-select: none;
+        }
+
+        .collapsible-title::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+            color: var(--main-blue);
+        }
+
+        .collapsible-title.active::after {
+            transform: translateY(-50%) rotate(-180deg);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            padding: 0;
+        }
+
+        .collapsible-content.active {
+            max-height: 2000px;
+            padding-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>STMG · Sciences et Technologies du Management et de la Gestion</h1>
+            <p class="subtitle">Lycée Langevin Wallon · Champigny-sur-Marne</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-container">
+            <div class="nav-item active" onclick="showSection('accueil')">Accueil</div>
+            <div class="nav-item" onclick="showSection('premiere')">Première STMG</div>
+            <div class="nav-item" onclick="showSection('terminale')">Terminale STMG</div>
+            <div class="nav-item" onclick="showSection('ressources')">Ressources</div>
+            <div class="nav-item" onclick="showSection('actualites')">Actualités</div>
+            <div class="nav-item" onclick="showSection('contact')">Contact</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- PAGE ACCUEIL -->
+        <section id="accueil" class="page-section active">
+            <div class="announcement-banner">
+                <h3>📢 Informations importantes</h3>
+                <p><strong>Mardi 14 janvier :</strong> Certification PIX</p>
+                <p><strong>Semaine du 19 janvier :</strong> Bac Blanc</p>
+            </div>
+
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <h2>Bienvenue sur l'espace STMG</h2>
+                    <p>Vous trouverez ici l'ensemble des ressources pédagogiques pour votre parcours en Sciences et Technologies du Management et de la Gestion : cours, exercices, documents de travail et informations sur l'orientation.</p>
+                    <p style="margin-top: 1rem;">Ce site est mis à jour régulièrement avec les nouveaux chapitres et supports de cours. N'hésitez pas à consulter la section Actualités pour rester informé(e) des événements du département.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Matières principales</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">2</div>
+                        <div class="stat-label">Années de formation</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Documents disponibles</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Possibilités post-bac</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Les matières STMG</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <span class="card-tag">ÉCONOMIE</span>
+                    <h3>Économie</h3>
+                    <p>Comprenez les mécanismes économiques, les politiques publiques et le fonctionnement des marchés. De la microéconomie à la macroéconomie, explorez les enjeux économiques contemporains.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag">DROIT</span>
+                    <h3>Droit</h3>
+                    <p>Maîtrisez les fondamentaux du droit civil et commercial : contrats, responsabilité civile, structures juridiques de l'entreprise et relations de travail.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag">MANAGEMENT</span>
+                    <h3>Management</h3>
+                    <p>Analysez les organisations, leur fonctionnement et leur gestion. Étudiez le management des équipes, la stratégie d'entreprise et les comportements organisationnels.</p>
+                </div>
+                <div class="card">
+                    <span class="card-tag">SPÉCIALITÉS</span>
+                    <h3>Spécialités de Terminale</h3>
+                    <p>En Terminale, choisissez votre spécialité parmi : <strong>Gestion et Finance</strong>, <strong>Mercatique</strong>, <strong>Ressources Humaines et Communication</strong>, ou <strong>Systèmes d'Information et de Gestion</strong>. 4h/semaine pour approfondir votre projet d'orientation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE PREMIÈRE -->
+        <section id="premiere" class="page-section">
+            <h1 class="section-title">Première STMG</h1>
+            <p class="section-intro">Ressources pédagogiques pour l'année de Première STMG : cours, exercices et documents de travail organisés par matière et par chapitre.</p>
+
+            <div class="content-grid">
+                <div class="card">
+                    <span class="card-tag">ÉCONOMIE</span>
+                    <h3>Économie - Première</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Les fondamentaux de l'économie</div>
+                            <div class="chapter-desc">Introduction aux concepts économiques de base, agents économiques et circuit économique</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                                <a href="#" class="download-btn">📊 Correction</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : La coordination par le marché</div>
+                            <div class="chapter-desc">Offre, demande, prix d'équilibre et mécanismes de marché</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 3 : La monnaie et le financement</div>
+                            <div class="chapter-desc">Fonctions de la monnaie, création monétaire et financement de l'économie</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">DROIT</span>
+                    <h3>Droit - Première</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Qu'est-ce que le droit ?</div>
+                            <div class="chapter-desc">Sources du droit, hiérarchie des normes et organisation judiciaire</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Les personnes et les biens</div>
+                            <div class="chapter-desc">Personnalité juridique, capacité juridique et classification des biens</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">MANAGEMENT</span>
+                    <h3>Management - Première</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Thème 1 : Qu'est-ce qu'une organisation ?</div>
+                            <div class="chapter-desc">Diversité des organisations, finalités et environnement</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Thème 2 : Comment se structure une organisation ?</div>
+                            <div class="chapter-desc">Structures organisationnelles et mécanismes de coordination</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">SIG</span>
+                    <h3>Sciences de Gestion - Première</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Les organisations et l'activité de production</div>
+                            <div class="chapter-desc">Processus de production et création de valeur</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ TD</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Numérique et intelligence collective</div>
+                            <div class="chapter-desc">Outils collaboratifs et transformation numérique</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">💻 TP</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE TERMINALE -->
+        <section id="terminale" class="page-section">
+            <h1 class="section-title">Terminale STMG</h1>
+            <p class="section-intro">Programme de Terminale STMG avec les cours, exercices et préparation au baccalauréat.</p>
+
+            <div class="content-grid">
+                <div class="card">
+                    <span class="card-tag">ÉCONOMIE</span>
+                    <h3>Économie - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Quels sont les grands déséquilibres macroéconomiques ?</div>
+                            <div class="chapter-desc">Inflation, chômage, déséquilibres extérieurs</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                                <a href="#" class="download-btn">📊 Correction</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Comment l'État peut-il intervenir dans l'économie ?</div>
+                            <div class="chapter-desc">Politiques conjoncturelles, réglementations et interventions publiques</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                                <a href="#" class="download-btn">📊 Correction</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 3 : La France dans l'Union européenne</div>
+                            <div class="chapter-desc">Construction européenne, politiques européennes et enjeux</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 4 : Les défaillances du marché</div>
+                            <div class="chapter-desc">Externalités, biens publics, asymétries d'information</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">DROIT</span>
+                    <h3>Droit - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Le contrat de travail</div>
+                            <div class="chapter-desc">Formation, exécution et rupture du contrat de travail</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Cas pratiques</a>
+                                <a href="#" class="download-btn">📊 Correction</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Les relations collectives de travail</div>
+                            <div class="chapter-desc">Syndicats, représentation du personnel, conflits collectifs</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 3 : L'entreprise et la responsabilité</div>
+                            <div class="chapter-desc">Responsabilité civile, pénale et administrative</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Cas pratiques</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">MANAGEMENT</span>
+                    <h3>Management - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 4 : Évaluation du travail et rémunération</div>
+                            <div class="chapter-desc">Systèmes de rémunération, évaluation de la performance, cas STEF</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours complet</a>
+                                <a href="#" class="download-btn">✏️ Fiche élève</a>
+                                <a href="#" class="download-btn">📊 Correction détaillée</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 5 : Le processus et le diagnostic stratégique</div>
+                            <div class="chapter-desc">Analyse stratégique, SWOT, chaîne de valeur</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 6 : Les choix stratégiques</div>
+                            <div class="chapter-desc">Stratégies de croissance, diversification, innovation</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Études de cas</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">GESTION ET FINANCE</span>
+                    <h3>Gestion et Finance - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Construire une image de l'entreprise</div>
+                            <div class="chapter-desc">Bilan comptable, analyse financière et diagnostic</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">💻 Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Analyser la situation financière</div>
+                            <div class="chapter-desc">Ratios financiers, équilibre financier, trésorerie</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">💻 Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 3 : Accompagner la prise de décision</div>
+                            <div class="chapter-desc">Coûts, seuil de rentabilité, choix d'investissement</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">💻 Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">RESSOURCES HUMAINES</span>
+                    <h3>Ressources Humaines et Communication - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Mobilisation et motivation des ressources humaines</div>
+                            <div class="chapter-desc">Théories de la motivation, conditions de travail, implication</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Compétences et potentiel</div>
+                            <div class="chapter-desc">Gestion des compétences, formation, GPEC</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 3 : Cohésion et conflits</div>
+                            <div class="chapter-desc">Communication interne, climat social, résolution de conflits</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">MERCATIQUE</span>
+                    <h3>Mercatique (Marketing) - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Mercatique et consommateurs</div>
+                            <div class="chapter-desc">Comportement du consommateur, études de marché, segmentation</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Mercatique et marchés</div>
+                            <div class="chapter-desc">Positionnement, mix marketing, stratégie de marque</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 3 : Mercatique et distribution</div>
+                            <div class="chapter-desc">Canaux de distribution, e-commerce, relation client</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">✏️ Exercices</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">SIG</span>
+                    <h3>Systèmes d'Information et de Gestion - Terminale</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 1 : Système d'information et organisation</div>
+                            <div class="chapter-desc">Architecture des SI, processus organisationnels</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">💻 TP</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Chapitre 2 : Bases de données et requêtes SQL</div>
+                            <div class="chapter-desc">Modélisation, création et interrogation de bases de données</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Cours</a>
+                                <a href="#" class="download-btn">💻 TP SQL</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h2 class="section-title">Préparation au Baccalauréat</h2>
+                <div class="content-grid">
+                    <div class="card">
+                        <h3>Grand Oral</h3>
+                        <p>Méthodologie, exemples de questions et conseils pour réussir l'épreuve du Grand Oral.</p>
+                        <div class="download-links" style="margin-top: 1rem;">
+                            <a href="#" class="download-btn">📄 Guide méthodologique</a>
+                            <a href="#" class="download-btn">💡 Exemples de questions</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Examens blancs</h3>
+                        <p>Sujets d'entraînement et annales corrigées pour toutes les matières.</p>
+                        <div class="download-links" style="margin-top: 1rem;">
+                            <a href="#" class="download-btn">📝 Sujets 2024</a>
+                            <a href="#" class="download-btn">📊 Corrections</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Fiches de révision</h3>
+                        <p>Synthèses des chapitres essentiels pour réviser efficacement.</p>
+                        <div class="download-links" style="margin-top: 1rem;">
+                            <a href="#" class="download-btn">📑 Pack complet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE RESSOURCES -->
+        <section id="ressources" class="page-section">
+            <h1 class="section-title">Ressources Transversales</h1>
+            <p class="section-intro">Outils méthodologiques, liens utiles et ressources pour enrichir votre formation STMG.</p>
+
+            <div class="content-grid">
+                <div class="card">
+                    <h3>📚 Méthodologie</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Comment analyser un document ?</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Fiche méthode</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Rédiger une note de synthèse</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Fiche méthode</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Construire un raisonnement argumenté</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">📄 Fiche méthode</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🎓 Orientation Post-Bac</h3>
+                    <ul class="chapter-list">
+                        <!-- BTS accessible -->
+                        <li class="chapter-item">
+                            <div class="chapter-title collapsible-title" onclick="toggleCollapsible(this)">
+                                Les BTS accessibles après STMG
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="chapter-desc" style="margin-top: 0.5rem;">
+                                    <strong>BTS Commerce et Vente :</strong><br>
+                                    • BTS NDRC (Négociation et Digitalisation de la Relation Client)<br>
+                                    • BTS MCO (Management Commercial Opérationnel)<br>
+                                    • BTS CI (Commerce International)<br><br>
+                                    
+                                    <strong>BTS Gestion et Comptabilité :</strong><br>
+                                    • BTS CG (Comptabilité et Gestion)<br>
+                                    • BTS Gestion de la PME<br>
+                                    • BTS SAM (Support à l'Action Managériale)<br><br>
+                                    
+                                    <strong>BTS Banque et Assurance :</strong><br>
+                                    • BTS Banque - Conseiller de clientèle<br>
+                                    • BTS Assurance<br><br>
+                                    
+                                    <strong>BTS Communication :</strong><br>
+                                    • BTS Communication<br>
+                                    • BTS ERPC (Études de Réalisation d'un Projet de Communication)
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- BUT et Licences -->
+                        <li class="chapter-item">
+                            <div class="chapter-title collapsible-title" onclick="toggleCollapsible(this)">
+                                BUT (ex-DUT) et licences
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="chapter-desc" style="margin-top: 0.5rem;">
+                                    <strong>BUT (3 ans) :</strong><br>
+                                    • BUT GEA (Gestion des Entreprises et des Administrations)<br>
+                                    • BUT TC (Techniques de Commercialisation)<br>
+                                    • BUT CJ (Carrières Juridiques)<br>
+                                    • BUT GACO (Gestion Administrative et Commerciale)<br><br>
+                                    
+                                    <strong>Licences universitaires :</strong><br>
+                                    • Licence Économie-Gestion<br>
+                                    • Licence AES (Administration Économique et Sociale)<br>
+                                    • Licence Droit<br>
+                                    • Licence LEA (Langues Étrangères Appliquées)
+                                </div>
+                            </div>
+                        </li>
+
+                        <!-- Écoles et CPGE -->
+                        <li class="chapter-item">
+                            <div class="chapter-title collapsible-title" onclick="toggleCollapsible(this)">
+                                Écoles de commerce et CPGE
+                            </div>
+                            <div class="collapsible-content">
+                                <div class="chapter-desc" style="margin-top: 0.5rem;">
+                                    <strong>Classe Préparatoire ECT :</strong><br>
+                                    • Prépa Économique et Commerciale voie Technologique<br>
+                                    • Accès aux Grandes Écoles de Commerce (HEC, ESSEC, ESCP, EM Lyon...)<br>
+                                    • 2 ans de préparation intensive<br><br>
+                                    
+                                    <strong>Écoles de commerce post-bac :</strong><br>
+                                    • Écoles en 3, 4 ou 5 ans<br>
+                                    • Sur concours (Sésame, Accès, Pass...)<br>
+                                    • Exemples : ESSCA, EDHEC, IESEG, EBS Paris...
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="download-links" style="margin-top: 1rem;">
+                        <a href="#" class="download-btn">🎯 Guide Parcoursup</a>
+                        <a href="#" class="download-btn">📊 Statistiques d'orientation</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔗 Liens Utiles</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Sites institutionnels</div>
+                            <div class="chapter-desc">
+                                • <a href="https://eduscol.education.fr" target="_blank" style="color: var(--accent);">Eduscol - Programmes officiels</a><br>
+                                • <a href="https://www.insee.fr" target="_blank" style="color: var(--accent);">INSEE - Données statistiques</a><br>
+                                • <a href="https://www.vie-publique.fr" target="_blank" style="color: var(--accent);">Vie Publique - Actualité politique</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Ressources pédagogiques</div>
+                            <div class="chapter-desc">
+                                • <a href="https://www.melchior.fr" target="_blank" style="color: var(--accent);">Melchior - Sciences économiques</a><br>
+                                • <a href="https://www.economie.gouv.fr" target="_blank" style="color: var(--accent);">Ministère de l'Économie</a><br>
+                                • <a href="https://www.legifrance.gouv.fr" target="_blank" style="color: var(--accent);">Légifrance - Textes juridiques</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Outils numériques</h3>
+                    <ul class="chapter-list">
+                        <li class="chapter-item">
+                            <div class="chapter-title">Tableur et calculs</div>
+                            <div class="chapter-desc">Tutoriels Excel pour les études de gestion</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">💻 Tutoriel Excel</a>
+                            </div>
+                        </li>
+                        <li class="chapter-item">
+                            <div class="chapter-title">Présentation et communication</div>
+                            <div class="chapter-desc">Réaliser des présentations professionnelles</div>
+                            <div class="download-links">
+                                <a href="#" class="download-btn">💻 Guide PowerPoint</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <h2 class="section-title">Calendrier 2024-2025</h2>
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Événement</th>
+                            <th>Niveau</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>20-24 janvier 2025</td>
+                            <td>Évaluation Chapitre 4 - Management</td>
+                            <td>Terminale</td>
+                        </tr>
+                        <tr>
+                            <td>3-7 février 2025</td>
+                            <td>Semaine de l'orientation</td>
+                            <td>Première & Terminale</td>
+                        </tr>
+                        <tr>
+                            <td>10-14 mars 2025</td>
+                            <td>Bac Blanc n°1</td>
+                            <td>Terminale</td>
+                        </tr>
+                        <tr>
+                            <td>24-28 mars 2025</td>
+                            <td>Semaine des projets interdisciplinaires</td>
+                            <td>Première & Terminale</td>
+                        </tr>
+                        <tr>
+                            <td>12-16 mai 2025</td>
+                            <td>Bac Blanc n°2</td>
+                            <td>Terminale</td>
+                        </tr>
+                        <tr>
+                            <td>16-20 juin 2025</td>
+                            <td>Épreuves du Baccalauréat</td>
+                            <td>Terminale</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- PAGE ACTUALITÉS -->
+        <section id="actualites" class="page-section">
+            <h1 class="section-title">Actualités du Département STMG</h1>
+            <p class="section-intro">Suivez les événements, sorties pédagogiques et projets du département.</p>
+
+            <div class="news-item">
+                <div class="news-date">🗓️ 8 janvier 2025</div>
+                <h3 class="news-title">Prochaine sortie : Salon Made in France Expo</h3>
+                <p>Les élèves de Terminale STMG participeront au salon Made in France Expo le 15 février prochain. Cette sortie pédagogique permettra de découvrir les entreprises françaises innovantes et leurs stratégies de développement. Documents de préparation disponibles dans la section Terminale.</p>
+            </div>
+
+            <div class="news-item">
+                <div class="news-date">🗓️ 15 décembre 2024</div>
+                <h3 class="news-title">Résultats du concours Prix de l'Excellence Économique</h3>
+                <p>Félicitations à nos élèves qui ont brillamment représenté le lycée lors du concours Prix de l'Excellence Économique ! Deux de nos équipes ont été sélectionnées pour la finale régionale qui se tiendra en mars 2025.</p>
+            </div>
+
+            <div class="news-item">
+                <div class="news-date">🗓️ 5 décembre 2024</div>
+                <h3 class="news-title">Journée de sensibilisation au harcèlement scolaire</h3>
+                <p>Une journée spéciale de sensibilisation au harcèlement scolaire s'est tenue le 9 décembre avec la participation de tous les niveaux. Merci aux élèves pour leur engagement et leur participation active aux ateliers.</p>
+            </div>
+
+            <div class="news-item">
+                <div class="news-date">🗓️ 20 novembre 2024</div>
+                <h3 class="news-title">Nouvelle section : Ressources pour le Grand Oral</h3>
+                <p>De nouvelles ressources ont été ajoutées pour accompagner les élèves de Terminale dans la préparation du Grand Oral. Retrouvez des exemples de questions, une méthodologie détaillée et des conseils pratiques dans la section Terminale.</p>
+            </div>
+
+            <div class="news-item">
+                <div class="news-date">🗓️ 10 octobre 2024</div>
+                <h3 class="news-title">Intervention d'un expert-comptable</h3>
+                <p>Les élèves de Terminale ont eu la chance d'assister à l'intervention de M. Dupont, expert-comptable, qui leur a présenté les réalités du métier et les débouchés dans les domaines de la comptabilité et de la gestion.</p>
+            </div>
+        </section>
+
+        <!-- PAGE CONTACT -->
+        <section id="contact" class="page-section">
+            <h1 class="section-title">Contact & Informations Pratiques</h1>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>📧 Contacter l'équipe STMG</h3>
+                    <p><strong>Professeure principale Terminale et coordinatrice :</strong><br>Mme Meslay Alexandre</p>
+                    <p><strong>Email :</strong> <a href="/cdn-cgi/l/email-protection#c8a9a4adb0a9a6acbaade6a5adbba4a9b188a5a7a6a4b1abadade6a6adbc" style="color: var(--main-blue);"><span class="__cf_email__" data-cfemail="d8b9b4bda0b9b6bcaabdf6b5bdabb4b9a198b5b7b6b4a1bbbdbdf6b6bdac">[email&#160;protected]</span></a></p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>Professeure principale Terminale :</strong><br>Mme Julie Lescan</p>
+                    <p><strong>Email :</strong> <a href="/cdn-cgi/l/email-protection#7319061f1a165d1f160010121d331e1c1d1f0a1016165d1d1607" style="color: var(--main-blue);"><span class="__cf_email__" data-cfemail="38524d54515d16545d4b5b59567855575654415b5d5d16565d4c">[email&#160;protected]</span></a></p>
+                    
+                    <p style="margin-top: 1rem;">Pour toute question concernant les cours, les documents ou l'orientation, n'hésitez pas à nous contacter par email ou via Pronote.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🏫 Lycée Langevin Wallon</h3>
+                    <p><strong>Adresse :</strong><br>
+                    126 Avenue Roger Salengro<br>
+                    94500 Champigny-sur-Marne</p>
+                    <p style="margin-top: 1rem;"><strong>Téléphone :</strong> 01 48 82 91 04</p>
+                    <p><strong>Site web :</strong> <a href="https://www.lycee-langevin-wallon.com/" target="_blank" style="color: var(--main-blue);">www.lycee-langevin-wallon.com</a></p>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ Horaires des cours</h3>
+                    <p><strong>Première STMG :</strong><br>
+                    • Économie-Droit : 4h/semaine<br>
+                    • Management : 4h/semaine<br>
+                    • Sciences de Gestion : 7h/semaine</p>
+                    <p style="margin-top: 1rem;"><strong>Terminale STMG :</strong><br>
+                    • Économie-Droit : 6h/semaine<br>
+                    • Management : 8h/semaine<br>
+                    <br>
+                    <strong>Spécialités (au choix) : 4h/semaine</strong><br>
+                    • Gestion et Finance<br>
+                    • Mercatique (Marketing)<br>
+                    • Ressources Humaines et Communication<br>
+                    • Systèmes d'Information et de Gestion</p>
+                </div>
+
+                <div class="card">
+                    <h3>📝 Absences et retards</h3>
+                    <p>Toute absence doit être justifiée via Pronote dans les 48 heures. Les documents de cours manqués sont disponibles sur ce site.</p>
+                    <p style="margin-top: 1rem;">En cas d'absence lors d'une évaluation, un justificatif médical est obligatoire pour bénéficier d'une session de rattrapage.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; padding: 2rem; background: white; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <h3 style="font-family: Arial, Helvetica, sans-serif; color: var(--dark-blue); margin-bottom: 1rem; font-weight: 700;">💡 Besoin d'aide ?</h3>
+                <p>N'hésitez pas à contacter l'équipe pédagogique si vous rencontrez des difficultés dans votre parcours STMG. Nous sommes là pour vous accompagner dans votre réussite et répondre à toutes vos questions concernant les cours, l'orientation ou les projets pédagogiques.</p>
+                <p style="margin-top: 1rem; font-style: italic; color: #666;">« Le succès est la somme de petits efforts répétés jour après jour. » - Robert Collier</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <a href="#" class="footer-link" onclick="showSection('accueil')">Accueil</a>
+                <a href="#" class="footer-link" onclick="showSection('premiere')">Première STMG</a>
+                <a href="#" class="footer-link" onclick="showSection('terminale')">Terminale STMG</a>
+                <a href="#" class="footer-link" onclick="showSection('ressources')">Ressources</a>
+            </div>
+            <div class="footer-section">
+                <h4>Liens Utiles</h4>
+                <a href="https://eduscol.education.fr" class="footer-link" target="_blank">Eduscol</a>
+                <a href="https://www.parcoursup.fr" class="footer-link" target="_blank">Parcoursup</a>
+                <a href="https://www.onisep.fr" class="footer-link" target="_blank">ONISEP</a>
+                <a href="https://www.education.gouv.fr" class="footer-link" target="_blank">Ministère Éducation</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 0.5rem;">Fabrice Ngabgna</p>
+                <a href="/cdn-cgi/l/email-protection#fb9d9a998992989ed5999a829a959c9a999a9c959abb9a98d698899e8f9e9297d59d89" class="footer-link"><span class="__cf_email__" data-cfemail="81e7e0e3f3e8e2e4afe3e0f8e0efe6e0e3e0e6efe0c1e0e2ace2f3e4f5e4e8edafe7f3">[email&#160;protected]</span></a>
+                <p style="color: rgba(255,255,255,0.8); margin-top: 1rem;">Lycée Langevin Wallon<br>Champigny-sur-Marne</p>
+            </div>
+            <div class="footer-section">
+                <h4>À propos</h4>
+                <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                    Site pédagogique du département STMG du Lycée Langevin Wallon. Mise à jour régulière des ressources et des actualités.
+                </p>
+                <p style="color: rgba(255,255,255,0.6); margin-top: 1rem; font-size: 0.9rem;">
+                    © 2025 - Lycée Langevin Wallon<br>
+                    Champigny-sur-Marne
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function showSection(sectionId) {
+            // Masquer toutes les sections
+            const sections = document.querySelectorAll('.page-section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Retirer la classe active de tous les éléments de navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Afficher la section demandée
+            document.getElementById(sectionId).classList.add('active');
+
+            // Activer l'élément de navigation correspondant
+            event.target.classList.add('active');
+
+            // Scroller vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Animation au scroll pour les cartes
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            });
+        }, observerOptions);
+
+ 
+        // Observer toutes les cartes
+        document.querySelectorAll('.card, .news-item').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Gestion des liens de téléchargement
+        document.querySelectorAll('.download-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Lien de téléchargement à configurer. Remplacez le "#" par l\'URL réelle du document.');
+            });
+        });
+
+        // Fonction pour gérer les accordéons
+        function toggleCollapsible(element) {
+            // Toggle la classe active sur le titre
+            element.classList.toggle('active');
+            
+            // Trouver le contenu associé
+            const content = element.nextElementSibling;
+            
+            // Toggle la classe active sur le contenu
+            content.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
